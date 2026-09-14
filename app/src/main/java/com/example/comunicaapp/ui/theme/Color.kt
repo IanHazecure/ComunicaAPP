@@ -6,7 +6,7 @@ val BluePrimary = Color(0xFF1565C0)
 val BluePrimaryDark = Color(0xFF0D47A1)
 val BlueLight = Color(0xFFBBDEFB)
 
-val OrangeAccent = Color(0xFFFF6F00)
+val OrangeAccent = Color(0xFFEF6C00)
 val OrangeAccentLight = Color(0xFFFFE0B2)
 
 val BackgroundLight = Color(0xFFFAFAFA)

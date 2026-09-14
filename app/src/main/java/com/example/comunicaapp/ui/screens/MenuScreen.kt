@@ -99,7 +99,7 @@ fun MenuScreen(navController: NavHostController) {
         ) {
             Icon(Icons.Filled.HelpOutline, contentDescription = null)
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Ayuda")
+            Text("¿Cómo se usa?")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
