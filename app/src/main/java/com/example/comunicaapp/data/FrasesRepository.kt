@@ -9,7 +9,8 @@ class FrasesRepository private constructor() {
         Frase(2, "Saludos", "Buenos días, ¿cómo estás?"),
         Frase(3, "Ayuda", "¿Puedes escribirlo en el celular, por favor?"),
         Frase(4, "Ayuda", "¿Puedes hablar un poco más despacio mirándome de frente?"),
-        Frase(5, "Cortesía", "Muchas gracias por tu paciencia.")
+        Frase(5, "Cortesía", "Muchas gracias por tu paciencia."),
+        Frase(6, "Cortesía", "Perdona la demora, estoy escribiendo.")
     )
 
     fun obtenerFrases(): List<Frase> = frases
