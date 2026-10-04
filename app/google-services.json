@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "365246275947",
+    "firebase_url": "https://nutriappdb-d4cea-default-rtdb.firebaseio.com",
+    "project_id": "nutriappdb-d4cea",
+    "storage_bucket": "nutriappdb-d4cea.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365246275947:android:cff75e30368bb18540ec2e",
+        "android_client_info": {
+          "package_name": "com.example.comunicaapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuOZceAKK9yakGHG8EeqepqZVRzRh7KAk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365246275947:android:e67a7b1c841d76e640ec2e",
+        "android_client_info": {
+          "package_name": "com.example.nutriapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuOZceAKK9yakGHG8EeqepqZVRzRh7KAk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -42,8 +42,7 @@ fun RegistroScreen(navController: NavHostController) {
     var aceptaTerminos by remember { mutableStateOf(false) }
 
     var errorMsg by remember { mutableStateOf<String?>(null) }
-
-    val cupoLleno = UsuariosRepository.instancia.alcanzoLimite()
+    var cargando by remember { mutableStateOf(false) }
 
     ContenedorAdaptativo {
     Card(
@@ -70,17 +69,12 @@ fun RegistroScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        if (cupoLleno) {
-            MensajeError("Se alcanzó el máximo de ${UsuariosRepository.MAX_USUARIOS} usuarios registrados. No es posible crear más cuentas.")
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-
         OutlinedTextField(
             value = nombre,
             onValueChange = { nombre = it },
             label = { Text("Nombre completo") },
             singleLine = true,
-            enabled = !cupoLleno,
+            enabled = !cargando,
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -92,7 +86,7 @@ fun RegistroScreen(navController: NavHostController) {
             label = { Text("Correo electrónico") },
             leadingIcon = { Icon(Icons.Filled.Email, contentDescription = null) },
             singleLine = true,
-            enabled = !cupoLleno,
+            enabled = !cargando,
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -104,7 +98,7 @@ fun RegistroScreen(navController: NavHostController) {
             label = { Text("Contraseña") },
             leadingIcon = { Icon(Icons.Filled.Lock, contentDescription = null) },
             singleLine = true,
-            enabled = !cupoLleno,
+            enabled = !cargando,
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
         )
@@ -117,7 +111,7 @@ fun RegistroScreen(navController: NavHostController) {
             label = { Text("Confirmar contraseña") },
             leadingIcon = { Icon(Icons.Filled.Lock, contentDescription = null) },
             singleLine = true,
-            enabled = !cupoLleno,
+            enabled = !cargando,
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
         )
@@ -127,13 +121,13 @@ fun RegistroScreen(navController: NavHostController) {
         Text(text = "Modo de comunicación preferido", style = MaterialTheme.typography.labelLarge)
         ExposedDropdownMenuBox(
             expanded = expanded,
-            onExpandedChange = { if (!cupoLleno) expanded = !expanded }
+            onExpandedChange = { if (!cargando) expanded = !expanded }
         ) {
             OutlinedTextField(
                 value = modoSeleccionado,
                 onValueChange = {},
                 readOnly = true,
-                enabled = !cupoLleno,
+                enabled = !cargando,
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                 modifier = Modifier
                     .menuAnchor()
@@ -166,7 +160,7 @@ fun RegistroScreen(navController: NavHostController) {
                 RadioButton(
                     selected = sexoSeleccionado == opcion,
                     onClick = { sexoSeleccionado = opcion },
-                    enabled = !cupoLleno
+                    enabled = !cargando
                 )
                 Text(text = opcion)
             }
@@ -178,7 +172,7 @@ fun RegistroScreen(navController: NavHostController) {
             Checkbox(
                 checked = aceptaTerminos,
                 onCheckedChange = { aceptaTerminos = it },
-                enabled = !cupoLleno
+                enabled = !cargando
             )
             Text(text = "Acepto los términos y condiciones")
         }
@@ -192,19 +186,23 @@ fun RegistroScreen(navController: NavHostController) {
 
         Button(
             onClick = {
-                when (val resultado = autenticacionService.registrarUsuario(
+                cargando = true
+                autenticacionService.registrarUsuario(
                     nombre, email, password, confirmPassword, aceptaTerminos
-                )) {
-                    is ResultadoAuth.Error -> errorMsg = resultado.mensaje
-                    is ResultadoAuth.Exito -> {
-                        errorMsg = null
-                        navController.navigate(Screen.Menu.route) {
-                            popUpTo(Screen.Login.route) { inclusive = true }
+                ) { resultado ->
+                    cargando = false
+                    when (resultado) {
+                        is ResultadoAuth.Error -> errorMsg = resultado.mensaje
+                        is ResultadoAuth.Exito -> {
+                            errorMsg = null
+                            navController.navigate(Screen.Menu.route) {
+                                popUpTo(Screen.Login.route) { inclusive = true }
+                            }
                         }
                     }
                 }
             },
-            enabled = !cupoLleno,
+            enabled = !cargando,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)

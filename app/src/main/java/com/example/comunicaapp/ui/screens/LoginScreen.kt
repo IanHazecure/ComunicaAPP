@@ -26,6 +26,7 @@ fun LoginScreen(navController: NavHostController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var errorMsg by remember { mutableStateOf<String?>(null) }
+    var cargando by remember { mutableStateOf(false) }
 
     ContenedorAdaptativo {
     Card(
@@ -86,16 +87,21 @@ fun LoginScreen(navController: NavHostController) {
 
         Button(
             onClick = {
-                when (val resultado = autenticacionService.iniciarSesion(email, password)) {
-                    is ResultadoAuth.Error -> errorMsg = resultado.mensaje
-                    is ResultadoAuth.Exito -> {
-                        errorMsg = null
-                        navController.navigate(Screen.Menu.route) {
-                            popUpTo(Screen.Login.route) { inclusive = true }
+                cargando = true
+                autenticacionService.iniciarSesion(email, password) { resultado ->
+                    cargando = false
+                    when (resultado) {
+                        is ResultadoAuth.Error -> errorMsg = resultado.mensaje
+                        is ResultadoAuth.Exito -> {
+                            errorMsg = null
+                            navController.navigate(Screen.Menu.route) {
+                                popUpTo(Screen.Login.route) { inclusive = true }
+                            }
                         }
                     }
                 }
             },
+            enabled = !cargando,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)

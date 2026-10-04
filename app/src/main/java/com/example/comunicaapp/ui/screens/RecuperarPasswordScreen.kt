@@ -75,14 +75,16 @@ fun RecuperarPasswordScreen(navController: NavHostController) {
 
         Button(
             onClick = {
-                when (val resultado = autenticacionService.solicitarRecuperacion(email)) {
-                    is ResultadoAuth.Error -> {
-                        errorMsg = resultado.mensaje
-                        mensajeEnviado = false
-                    }
-                    is ResultadoAuth.Exito -> {
-                        errorMsg = null
-                        mensajeEnviado = true
+                autenticacionService.solicitarRecuperacion(email) { resultado ->
+                    when (resultado) {
+                        is ResultadoAuth.Error -> {
+                            errorMsg = resultado.mensaje
+                            mensajeEnviado = false
+                        }
+                        is ResultadoAuth.Exito -> {
+                            errorMsg = null
+                            mensajeEnviado = true
+                        }
                     }
                 }
             },
