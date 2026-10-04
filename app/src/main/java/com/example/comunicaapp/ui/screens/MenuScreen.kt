@@ -23,98 +23,72 @@ fun MenuScreen(navController: NavHostController) {
     var mostrarConfirmacion by remember { mutableStateOf(false) }
 
     ContenedorAdaptativo {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "ComunicaApp",
-            style = MaterialTheme.typography.headlineLarge,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
-        )
-
-        Spacer(modifier = Modifier.height(40.dp))
-
-        Button(
-            onClick = { navController.navigate(Screen.Hablar.route) },
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp)
+                .padding(24.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Icon(Icons.Filled.RecordVoiceOver, contentDescription = null)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("Hablar por mí")
+            Text(
+                text = "ComunicaApp",
+                style = MaterialTheme.typography.headlineLarge,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Text(
+                text = "Elige una herramienta para comunicarte",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            MenuActionCard(
+                icon = Icons.Filled.RecordVoiceOver,
+                title = "Hablar por mí",
+                description = "Escribe un mensaje y dilo en voz alta",
+                onClick = { navController.navigate(Screen.Hablar.route) },
+                highlighted = true
+            )
+            MenuActionCard(
+                icon = Icons.Filled.List,
+                title = "Frases rápidas",
+                description = "Accede a mensajes listos para usar",
+                onClick = { navController.navigate(Screen.FrasesRapidas.route) }
+            )
+            MenuActionCard(
+                icon = Icons.Filled.Hearing,
+                title = "Transcribir lo que escuchan",
+                description = "Convierte una conversación en texto",
+                onClick = { navController.navigate(Screen.Transcripcion.route) }
+            )
+            MenuActionCard(
+                icon = Icons.Filled.People,
+                title = "Usuarios registrados",
+                description = "Consulta las personas de la aplicación",
+                onClick = { navController.navigate(Screen.ListaUsuarios.route) }
+            )
+
+            OutlinedButton(
+                onClick = { navController.navigate(Screen.Ayuda.route) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp)
+            ) {
+                Icon(Icons.Filled.HelpOutline, contentDescription = null)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("¿Cómo se usa?")
+            }
+
+            TextButton(
+                onClick = { mostrarConfirmacion = true },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(Icons.Filled.Logout, contentDescription = null)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Cerrar sesión")
+            }
         }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(
-            onClick = { navController.navigate(Screen.FrasesRapidas.route) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-        ) {
-            Icon(Icons.Filled.List, contentDescription = null)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("Frases rápidas")
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(
-            onClick = { navController.navigate(Screen.Transcripcion.route) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-        ) {
-            Icon(Icons.Filled.Hearing, contentDescription = null)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("Transcribir lo que escuchan")
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(
-            onClick = { navController.navigate(Screen.ListaUsuarios.route) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-        ) {
-            Icon(Icons.Filled.People, contentDescription = null)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("Ver usuarios registrados")
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        OutlinedButton(
-            onClick = { navController.navigate(Screen.Ayuda.route) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-        ) {
-            Icon(Icons.Filled.HelpOutline, contentDescription = null)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("¿Cómo se usa?")
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        OutlinedButton(
-            onClick = { mostrarConfirmacion = true },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-        ) {
-            Icon(Icons.Filled.Logout, contentDescription = null)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("Cerrar sesión")
-        }
-    }
     }
 
     if (mostrarConfirmacion) {
@@ -138,5 +112,55 @@ fun MenuScreen(navController: NavHostController) {
                 }
             }
         )
+    }
+}
+
+@Composable
+private fun MenuActionCard(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    title: String,
+    description: String,
+    onClick: () -> Unit,
+    highlighted: Boolean = false
+) {
+    Card(
+        onClick = onClick,
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 84.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = if (highlighted) {
+                MaterialTheme.colorScheme.primaryContainer
+            } else {
+                MaterialTheme.colorScheme.surfaceVariant
+            }
+        )
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(32.dp)
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            Column {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Text(
+                    text = description,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
     }
 }
