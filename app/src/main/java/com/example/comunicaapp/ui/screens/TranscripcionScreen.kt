@@ -107,7 +107,7 @@ fun TranscripcionScreen(navController: NavHostController) {
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp)
+                .height(56.dp)
         ) {
             Icon(Icons.Filled.Mic, contentDescription = null)
             Spacer(modifier = Modifier.width(8.dp))
@@ -121,12 +121,24 @@ fun TranscripcionScreen(navController: NavHostController) {
 
         if (textoTranscrito.isNotBlank()) {
             Spacer(modifier = Modifier.height(20.dp))
-            Card(modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    text = textoTranscrito,
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(16.dp)
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer
                 )
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(
+                        text = "Transcripción",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = textoTranscrito,
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
             }
         }
 

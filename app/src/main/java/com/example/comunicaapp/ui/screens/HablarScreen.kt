@@ -49,13 +49,22 @@ fun HablarScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        OutlinedTextField(
-            value = texto,
-            onValueChange = { texto = it },
-            label = { Text("Escribe aquí") },
-            minLines = 4,
-            modifier = Modifier.fillMaxWidth()
-        )
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant
+            )
+        ) {
+            OutlinedTextField(
+                value = texto,
+                onValueChange = { texto = it },
+                label = { Text("Escribe aquí") },
+                minLines = 4,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+            )
+        }
 
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -63,7 +72,7 @@ fun HablarScreen(navController: NavHostController) {
             onClick = { lectorVoz.decir(texto) },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp)
+                .height(56.dp)
         ) {
             Icon(Icons.Filled.VolumeUp, contentDescription = null)
             Spacer(modifier = Modifier.width(8.dp))
