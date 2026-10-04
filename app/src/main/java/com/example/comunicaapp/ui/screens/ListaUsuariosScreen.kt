@@ -25,7 +25,7 @@ fun ListaUsuariosScreen(navController: NavHostController) {
     LaunchedEffect(Unit) {
         UsuariosRepository.instancia.obtenerUsuarios(
             onSuccess = { usuarios = it },
-            onError = { error = "No se pudieron cargar los usuarios" }
+            onError = { error = "No se pudieron cargar los usuarios: ${it.localizedMessage ?: it.message}" }
         )
     }
 

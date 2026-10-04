@@ -1,5 +1,6 @@
 package com.example.comunicaapp.data
 
+import android.util.Log
 import com.example.comunicaapp.model.Usuario
 
 sealed class ResultadoAuth {
@@ -25,7 +26,11 @@ class AutenticacionService(
                 if (usuario == null) ResultadoAuth.Error("Correo o contraseña incorrectos")
                 else ResultadoAuth.Exito
             )
-        }, { onResult(ResultadoAuth.Error("No se pudo conectar con la base de datos")) })
+        }, { error ->
+            Log.e("AutenticacionService", "Error al iniciar sesión", error)
+            val detalle = error.localizedMessage ?: error.message ?: error.toString()
+            onResult(ResultadoAuth.Error("Error de base de datos: $detalle"))
+        })
     }
 
     fun registrarUsuario(
@@ -49,12 +54,16 @@ class AutenticacionService(
                 } else {
                     repositorio.registrar(Usuario(nombre.trim(), email.trim(), password), {
                         onResult(ResultadoAuth.Exito)
-                    }, {
-                        onResult(ResultadoAuth.Error("No se pudo guardar el usuario"))
+                    }, { error ->
+                        Log.e("AutenticacionService", "Error al registrar usuario", error)
+                        val detalle = error.localizedMessage ?: error.message ?: error.toString()
+                        onResult(ResultadoAuth.Error("No se pudo guardar el usuario: $detalle"))
                     })
                 }
-            }, {
-                onResult(ResultadoAuth.Error("No se pudo conectar con la base de datos"))
+            }, { error ->
+                Log.e("AutenticacionService", "Error al verificar email", error)
+                val detalle = error.localizedMessage ?: error.message ?: error.toString()
+                onResult(ResultadoAuth.Error("Error de base de datos: $detalle"))
             })
         }
     }
@@ -72,8 +81,10 @@ class AutenticacionService(
                 if (existe) ResultadoAuth.Exito
                 else ResultadoAuth.Error("No existe una cuenta registrada con ese correo")
             )
-        }, {
-            onResult(ResultadoAuth.Error("No se pudo conectar con la base de datos"))
+        }, { error ->
+            Log.e("AutenticacionService", "Error al solicitar recuperación", error)
+            val detalle = error.localizedMessage ?: error.message ?: error.toString()
+            onResult(ResultadoAuth.Error("Error de base de datos: $detalle"))
         })
     }
 }
