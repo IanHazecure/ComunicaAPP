@@ -26,13 +26,21 @@ fun RecuperarPasswordScreen(navController: NavHostController) {
     var errorMsg by remember { mutableStateOf<String?>(null) }
 
     ContenedorAdaptativo {
-    Column(
+    Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(24.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        shape = MaterialTheme.shapes.large,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
     ) {
+        Column(
+            modifier = Modifier.padding(24.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
         Text(
             text = "Recuperar contraseña",
             style = MaterialTheme.typography.headlineMedium,
@@ -102,6 +110,6 @@ fun RecuperarPasswordScreen(navController: NavHostController) {
         TextButton(onClick = { navController.popBackStack() }) {
             Text("Volver a iniciar sesión")
         }
-    }
+        }
     }
 }

@@ -28,13 +28,21 @@ fun LoginScreen(navController: NavHostController) {
     var errorMsg by remember { mutableStateOf<String?>(null) }
 
     ContenedorAdaptativo {
-    Column(
+    Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(24.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        shape = MaterialTheme.shapes.large,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
     ) {
+        Column(
+            modifier = Modifier.padding(24.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
         Text(
             text = "ComunicaApp",
             style = MaterialTheme.typography.headlineLarge,
@@ -106,6 +114,6 @@ fun LoginScreen(navController: NavHostController) {
         TextButton(onClick = { navController.navigate(Screen.Registro.route) }) {
             Text("¿No tienes cuenta? Regístrate aquí")
         }
-    }
+        }
     }
 }

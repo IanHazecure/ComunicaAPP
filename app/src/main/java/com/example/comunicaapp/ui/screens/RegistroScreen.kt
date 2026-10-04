@@ -46,12 +46,21 @@ fun RegistroScreen(navController: NavHostController) {
     val cupoLleno = UsuariosRepository.instancia.alcanzoLimite()
 
     ContenedorAdaptativo {
-    Column(
+    Card(
         modifier = Modifier
             .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
-            .padding(24.dp)
+            .padding(24.dp),
+        shape = MaterialTheme.shapes.large,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
     ) {
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(24.dp)
+        ) {
         Text(
             text = "Crear cuenta",
             style = MaterialTheme.typography.headlineMedium,
@@ -213,6 +222,6 @@ fun RegistroScreen(navController: NavHostController) {
         ) {
             Text("Ya tengo cuenta, iniciar sesión")
         }
-    }
+        }
     }
 }
