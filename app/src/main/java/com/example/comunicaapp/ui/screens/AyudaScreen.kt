@@ -6,6 +6,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -71,7 +73,7 @@ fun AyudaScreen(navController: NavHostController) {
             onClick = { navController.popBackStack() },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp)
+                .height(52.dp)
         ) {
             Text("Volver")
         }
@@ -81,13 +83,22 @@ fun AyudaScreen(navController: NavHostController) {
 
 @Composable
 private fun AyudaPaso(titulo: String, texto: String) {
-    Column(modifier = Modifier.padding(bottom = 16.dp)) {
-        Text(
-            text = titulo,
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 12.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
         )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(text = texto, style = MaterialTheme.typography.bodyLarge)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                text = titulo,
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(text = texto, style = MaterialTheme.typography.bodyLarge)
+        }
     }
 }
