@@ -225,3 +225,4 @@ fun RegistroScreen(navController: NavHostController) {
         }
     }
 }
+}
